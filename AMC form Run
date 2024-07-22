@@ -1,0 +1,46 @@
+package com.orangeHRM.TestRunner;
+
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import com.Fieldy.PageObjects.AMCFormPage;
+import com.Fieldy.PageObjects.DashBoardPage;
+import com.Fieldy.PageObjects.LoginPage;
+import com.Fieldy.TestBase.BaseClass;
+import com.Fieldy.TestBase.Constants;
+import com.Fieldy.TestUtility.DriverUtils;
+
+public class FieldyRun extends BaseClass{
+
+	DriverUtils helper;
+	
+	LoginPage loginPage;
+	
+	DashBoardPage dashBoardPage;
+	
+	AMCFormPage amcFormPage;
+	
+	@BeforeClass
+	public void beforeClass()
+	{
+		getDriver(Constants.chromeBrowser, Constants.incognito);
+		DriverUtils.maximize();
+		DriverUtils.implicitWait();
+		DriverUtils.get(Constants.pageURL);
+		
+		loginPage=new LoginPage();
+		dashBoardPage=new DashBoardPage();
+		amcFormPage=new AMCFormPage();
+	}
+	
+	
+	@Test(priority = 0)
+	public void formCreation() throws InterruptedException
+	{
+		
+		loginPage.verifyLogin(Constants.userName, Constants.password);
+		Thread.sleep(15000);
+		dashBoardPage.clickAMCModule();
+		amcFormPage.createAMCForm("Sa","Te","20-07-2024","20-07-2024","1000");
+	}
+}
